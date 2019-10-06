@@ -10,9 +10,6 @@ public class Seasons : MonoBehaviour
     // for testing campaigns as a different/fresh user
     public string userID = null;
 
-    // Local Images used for Seasonal backgrounds
-    //private SpriteRenderer BackgroundSprite = null; 
-
     // Holds player in a variant group for the duration of a season
     string seasonVariantLock = null;
     string seasonName = null;
@@ -94,10 +91,15 @@ public class Seasons : MonoBehaviour
             seasonVariantLock = gameParameters["seasonVariantLock"].ToString();            
         }
         else if (gameParameters.ContainsKey("seasonNumber"))
-        {
-            seasonNumber = System.Convert.ToInt32(gameParameters["seasonNumber"].ToString());
-            seasonName = "Season_" + gameParameters["seasonNumber"].ToString(); 
-            seasonVariantLock = gameParameters["seasonVariantLock"].ToString();          
+        {            
+            int newSeason = System.Convert.ToInt32(gameParameters["seasonNumber"].ToString());
+            int oldSeason = System.Convert.ToInt32(gameParameters["seasonNumberCurrent"].ToString());
+            if (newSeason > oldSeason)
+            {
+                seasonNumber = newSeason;
+                seasonName = "Season" + gameParameters["seasonNumber"].ToString();
+                seasonVariantLock = gameParameters["seasonVariantLock"].ToString();
+            }
         }
         SetCurrentSeason();
     }
